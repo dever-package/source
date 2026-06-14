@@ -1,0 +1,98 @@
+{
+  "page": {
+    "name": "分类编辑",
+    "parent": "source/channel/manage",
+    "type": 2,
+    "auth": [
+      {
+        "key": "source/cate/create",
+        "name": "分类新增",
+        "query": {
+          "id": "empty"
+        }
+      },
+      {
+        "key": "source/cate/update",
+        "name": "分类编辑",
+        "query": {
+          "id": "required"
+        }
+      }
+    ]
+  },
+  "layout": {
+    "type": "container",
+    "children": {
+      "page-main": {
+        "type": "main",
+        "className": "p-0",
+        "children": {
+          "dialog-shell": {
+            "type": "container",
+            "className": "w-full"
+          }
+        }
+      }
+    }
+  },
+  "nodes": {
+    "dialog-shell": [
+      {
+        "type": "form-select",
+        "value": "form.channel_id",
+        "mode": "form",
+        "option": "/front/route/option?type=model&use=source.NewChannelModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "validate": [
+          {
+            "type": "required",
+            "message": "所属频道不能为空。"
+          }
+        ],
+        "meta": {
+          "formLayout": "horizontal",
+          "controlClassName": "max-w-[260px]"
+        }
+      },
+      {
+        "type": "form-input",
+        "placeholder": "例如：图文素材",
+        "value": "form.name",
+        "mode": "form",
+        "validate": [
+          {
+            "type": "required",
+            "message": "分类名称不能为空。"
+          }
+        ],
+        "meta": {
+          "formLayout": "horizontal"
+        }
+      }
+    ]
+  },
+  "data": {
+    "form": {
+      "id": "",
+      "channel_id": 1,
+      "name": "",
+      "sort": 100,
+      "status": 1
+    }
+  },
+  "state": {},
+  "action": {
+    "submit": {
+      "type": "save",
+      "params": "form",
+      "data": {
+        "id": "$form.id",
+        "channel_id": "$form.channel_id",
+        "name": "$form.name"
+      },
+      "before": {
+        "type": "service",
+        "use": "source.SourceHook.BeforeSaveCate"
+      }
+    }
+  }
+}

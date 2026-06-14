@@ -1,0 +1,430 @@
+{
+  "page": {
+    "name": "资源管理",
+    "icon": "file-text",
+    "parent": "source-resource",
+    "sort": 1
+  },
+  "layout": {
+    "type": "container",
+    "children": {
+      "page-header": {
+        "type": "header",
+        "className": "gap-4",
+        "children": {
+          "header-actions": {
+            "type": "row",
+            "className": "ms-auto shrink-0 flex-nowrap items-center gap-2"
+          }
+        }
+      },
+      "page-main": {
+        "type": "main",
+        "className": "flex flex-1 flex-col gap-5 sm:gap-6",
+        "children": {
+          "toolbar-row": {
+            "type": "row",
+            "className": "flex-wrap items-center gap-2.5"
+          },
+          "table-row": {
+            "type": "container",
+            "className": "overflow-hidden rounded-md border bg-background"
+          },
+          "feedback-shell": {
+            "type": "container"
+          }
+        }
+      }
+    }
+  },
+  "nodes": {
+    "page-header": [
+      {
+        "type": "show-title",
+        "value": "page",
+        "className": "min-w-0 flex-1"
+      }
+    ],
+    "header-actions": [
+      {
+        "type": "show-button",
+        "name": "新增资源",
+        "className": "shrink-0",
+        "meta": {
+          "variant": "default",
+          "size": "sm"
+        },
+        "action": {
+          "click": {
+            "type": "modal",
+            "key": "dialog.create",
+            "value": true
+          }
+        }
+      }
+    ],
+    "toolbar-row": [
+      {
+        "type": "form-input",
+        "placeholder": "筛选标题...",
+        "value": "search.keyword",
+        "mode": "search"
+      },
+      {
+        "type": "form-select",
+        "placeholder": "频道",
+        "value": "search.channel_id",
+        "mode": "search",
+        "option": "/front/route/option?type=model&use=source.NewChannelModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "meta": {
+          "controlClassName": "w-[180px]",
+          "clearOnChange": [
+            "search.cate_id"
+          ]
+        }
+      },
+      {
+        "type": "form-select",
+        "placeholder": "分类",
+        "value": "search.cate_id",
+        "mode": "search",
+        "option": "/front/route/option?type=service&use=source.SourceOptionService.LoadCates",
+        "meta": {
+          "controlClassName": "w-[180px]",
+          "optionParams": {
+            "parentField": "channel_id",
+            "parentId": "data.search.channel_id"
+          }
+        }
+      },
+      {
+        "type": "form-select",
+        "placeholder": "来源",
+        "value": "search.origin_id",
+        "mode": "search",
+        "option": "/front/route/option?type=model&use=source.NewOriginModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "meta": {
+          "controlClassName": "w-[180px]"
+        }
+      },
+      {
+        "type": "form-select",
+        "placeholder": "资源状态",
+        "value": "search.status_id",
+        "mode": "search",
+        "option": "/front/route/option?type=model&use=source.NewStatusModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "meta": {
+          "controlClassName": "w-[180px]"
+        }
+      },
+      {
+        "type": "form-select",
+        "placeholder": "是否展示",
+        "value": "search.status",
+        "mode": "search",
+        "option": "option.status",
+        "meta": {
+          "controlClassName": "w-[140px]"
+        }
+      },
+      {
+        "type": "show-button",
+        "name": "搜索",
+        "meta": {
+          "variant": "default",
+          "size": "sm",
+          "searchSubmit": true,
+          "searchLayoutId": "toolbar-row",
+          "loadingText": "搜索中..."
+        }
+      },
+      {
+        "type": "show-button",
+        "name": "重置",
+        "meta": {
+          "variant": "outline",
+          "size": "sm",
+          "searchLayoutId": "toolbar-row",
+          "to": "/source/source/list"
+        }
+      }
+    ],
+    "table-row": [
+      {
+        "type": "show-table",
+        "value": "table.list",
+        "meta": {
+          "pagePath": "data.table.page",
+          "pageSizePath": "data.table.pageSize",
+          "totalPath": "data.table.total",
+          "remote": true,
+          "externalPagination": true,
+          "savePath": "source/source/update",
+          "rowKey": "id",
+          "columns": [
+            {
+              "value": "id",
+              "name": "资源ID",
+              "type": "show-base",
+              "className": "w-[1%] whitespace-nowrap text-center"
+            },
+            {
+              "value": "title",
+              "type": "show-base"
+            },
+            {
+              "value": "channel.name",
+              "name": "频道",
+              "type": "show-base"
+            },
+            {
+              "value": "cate.name",
+              "name": "分类",
+              "type": "show-base"
+            },
+            {
+              "value": "origin.name",
+              "name": "来源",
+              "type": "show-base"
+            },
+            {
+              "value": "source_status.name",
+              "name": "资源状态",
+              "type": "show-base"
+            },
+            {
+              "value": "status",
+              "name": "是否展示",
+              "type": "form-switch",
+              "action": {
+                "change": {
+                  "type": "save",
+                  "path": "source/source/update",
+                  "params": {
+                    "_partial": true,
+                    "id": "$row.id",
+                    "status": "$value"
+                  },
+                  "before": {
+                    "type": "service",
+                    "use": "source.SourceHook.BeforeSaveSource"
+                  }
+                }
+              },
+              "meta": {
+                "trueValue": 1,
+                "falseValue": 2
+              }
+            },
+            {
+              "value": "sort",
+              "type": "show-base",
+              "editor": "form-number",
+              "trigger": "doubleClick",
+              "tip": "正序排序，数值越小越靠前。"
+            },
+            {
+              "value": "created_at",
+              "type": "show-date"
+            },
+            {
+              "name": "操作",
+              "type": "show-button",
+              "className": "w-[1%] whitespace-nowrap px-3 text-center",
+              "meta": {
+                "buttons": [
+                  {
+                    "icon": "square-pen",
+                    "variant": "outline",
+                    "size": "sm",
+                    "description": "编辑资源",
+                    "action": {
+                      "click": [
+                        {
+                          "type": "data",
+                          "key": "actionTarget.editSourceId",
+                          "value": "$row.id"
+                        },
+                        {
+                          "type": "modal",
+                          "key": "dialog.edit",
+                          "value": true
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "icon": "copy",
+                    "variant": "outline",
+                    "size": "sm",
+                    "description": "复制资源",
+                    "action": {
+                      "click": [
+                        {
+                          "type": "data",
+                          "key": "actionTarget.copySource",
+                          "value": "$row"
+                        },
+                        {
+                          "type": "modal",
+                          "key": "dialog.copy",
+                          "value": true
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "icon": "trash-2",
+                    "variant": "outline",
+                    "size": "sm",
+                    "description": "删除资源",
+                    "className": "text-destructive hover:text-destructive",
+                    "action": {
+                      "click": [
+                        {
+                          "type": "data",
+                          "key": "actionTarget.deleteSource",
+                          "value": "$row"
+                        },
+                        {
+                          "type": "modal",
+                          "key": "confirm.delete",
+                          "value": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "show-page"
+      }
+    ],
+    "feedback-shell": [
+      {
+        "type": "feedback-modal",
+        "meta": {
+          "stateKey": "dialog.create",
+          "pageRoute": "/source/source/update",
+          "title": "新增资源",
+          "description": "维护标题、频道分类、图片和正文内容。",
+          "footer": {
+            "confirm": true,
+            "confirmText": "保存"
+          },
+          "size": "3xl",
+          "bodyClassName": "py-2"
+        }
+      },
+      {
+        "type": "feedback-modal",
+        "meta": {
+          "stateKey": "dialog.edit",
+          "pageRoute": "/source/source/update",
+          "title": "编辑资源",
+          "description": "调整标题、频道分类、图片和正文内容。",
+          "footer": {
+            "confirm": true,
+            "confirmText": "保存"
+          },
+          "pageRouteQuery": {
+            "id": "data.actionTarget.editSourceId"
+          },
+          "size": "3xl",
+          "bodyClassName": "py-2"
+        }
+      },
+      {
+        "type": "feedback-modal",
+        "meta": {
+          "stateKey": "dialog.copy",
+          "pageRoute": "/source/source/update",
+          "title": "复制资源",
+          "description": "复制当前资源的标题、频道、分类、图片和内容。",
+          "footer": {
+            "confirm": true,
+            "confirmText": "保存副本"
+          },
+          "pageRouteQuery": {
+            "title": "data.actionTarget.copySource.title",
+            "content": "data.actionTarget.copySource.content",
+            "images": "data.actionTarget.copySource.images",
+            "channel_id": "data.actionTarget.copySource.channel_id",
+            "cate_id": "data.actionTarget.copySource.cate_id",
+            "origin_id": "data.actionTarget.copySource.origin_id",
+            "status_id": "data.actionTarget.copySource.status_id",
+            "status": 1,
+            "sort": "data.actionTarget.copySource.sort"
+          },
+          "size": "3xl",
+          "bodyClassName": "py-2"
+        }
+      },
+      {
+        "type": "feedback-confirm",
+        "name": "删除资源",
+        "info": "确认删除当前资源吗？",
+        "meta": {
+          "stateKey": "confirm.delete"
+        },
+        "action": {
+          "confirm": {
+            "type": "delete",
+            "path": "source/source/update",
+            "params": "actionTarget.deleteSource"
+          }
+        }
+      }
+    ]
+  },
+  "data": {
+    "page": {
+      "title": "资源管理",
+      "description": "维护资源基础信息、频道分类、图片和富文本内容。"
+    },
+    "search": {
+      "keyword": "",
+      "channel_id": "",
+      "cate_id": "",
+      "origin_id": "",
+      "status_id": "",
+      "status": ""
+    },
+    "table": {
+      "page": 1,
+      "pageSize": 10,
+      "total": 0,
+      "searchFields": [
+        "title"
+      ],
+      "filterFields": [
+        "channel_id",
+        "cate_id",
+        "origin_id",
+        "status_id",
+        "status"
+      ],
+      "order": "sort asc,id desc"
+    },
+    "actionTarget": {
+      "editSourceId": "",
+      "copySource": {},
+      "deleteSource": {}
+    }
+  },
+  "state": {
+    "dialog": {
+      "create": false,
+      "edit": false,
+      "copy": false
+    },
+    "confirm": {
+      "delete": false
+    }
+  },
+  "action": {}
+}

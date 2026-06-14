@@ -1,0 +1,91 @@
+{
+  "page": {
+    "name": "来源编辑",
+    "parent": "source/origin/list",
+    "type": 2,
+    "auth": [
+      {
+        "key": "source/origin/create",
+        "name": "来源新增",
+        "query": {
+          "id": "empty"
+        }
+      },
+      {
+        "key": "source/origin/update",
+        "name": "来源编辑",
+        "query": {
+          "id": "required"
+        }
+      }
+    ]
+  },
+  "layout": {
+    "type": "container",
+    "children": {
+      "page-main": {
+        "type": "main",
+        "className": "p-0",
+        "children": {
+          "dialog-shell": {
+            "type": "container",
+            "className": "w-full"
+          }
+        }
+      }
+    }
+  },
+  "nodes": {
+    "dialog-shell": [
+      {
+        "type": "form-input",
+        "placeholder": "例如：物业、房产商、业主",
+        "value": "form.name",
+        "mode": "form",
+        "validate": [
+          {
+            "type": "required",
+            "message": "来源名称不能为空。"
+          },
+          {
+            "type": "model",
+            "except": "$form.id",
+            "message": "该来源名称已存在，请更换。"
+          }
+        ],
+        "meta": {
+          "formLayout": "horizontal"
+        }
+      },
+      {
+        "type": "form-number",
+        "value": "form.sort",
+        "mode": "form",
+        "info": "正序排序，数值越小越靠前。",
+        "meta": {
+          "formLayout": "horizontal",
+          "controlClassName": "max-w-[160px]"
+        }
+      }
+    ]
+  },
+  "data": {
+    "form": {
+      "id": "",
+      "name": "",
+      "status": 1,
+      "sort": 100
+    }
+  },
+  "state": {},
+  "action": {
+    "submit": {
+      "type": "save",
+      "params": "form",
+      "before": {
+        "type": "service",
+        "use": "source.SourceHook.BeforeSaveOrigin"
+      }
+    }
+  }
+}

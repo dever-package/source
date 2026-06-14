@@ -1,0 +1,466 @@
+{
+  "page": {
+    "name": "频道管理",
+    "icon": "network",
+    "parent": "source-resource",
+    "type": 1,
+    "sort": 2
+  },
+  "layout": {
+    "type": "container",
+    "children": {
+      "page-header": {
+        "type": "header",
+        "className": "gap-4",
+        "children": {
+          "header-actions": {
+            "type": "row",
+            "className": "ms-auto shrink-0 flex-nowrap items-center gap-2"
+          }
+        }
+      },
+      "page-main": {
+        "type": "main",
+        "className": "flex flex-1 flex-col gap-5 sm:gap-6",
+        "children": {
+          "content-shell": {
+            "type": "container",
+            "className": "front-two-pane-layout",
+            "children": {
+              "channel-column": {
+                "type": "container",
+                "className": "min-w-0"
+              },
+              "cate-column": {
+                "type": "container",
+                "className": "flex min-w-0 flex-col gap-4",
+                "children": {
+                  "cate-title": {
+                    "type": "container",
+                    "className": "min-w-0"
+                  },
+                  "cate-toolbar": {
+                    "type": "row",
+                    "className": "flex-wrap items-center gap-2.5"
+                  },
+                  "cate-table": {
+                    "type": "container",
+                    "className": "overflow-hidden rounded-md border bg-background"
+                  }
+                }
+              }
+            }
+          },
+          "feedback-shell": {
+            "type": "container"
+          }
+        }
+      }
+    }
+  },
+  "nodes": {
+    "page-header": [
+      {
+        "type": "show-title",
+        "value": "page",
+        "className": "min-w-0 flex-1"
+      }
+    ],
+    "header-actions": [],
+    "channel-column": [
+      {
+        "type": "show-category-list",
+        "id": "source-channel-list",
+        "value": "search.channel_id",
+        "option": "/front/route/option?type=service&use=source.SourceOptionService.LoadChannels",
+        "meta": {
+          "title": "频道",
+          "description": "左侧维护频道，右侧维护当前频道下的分类。",
+          "remote": true,
+          "defaultFirst": true,
+          "queryKey": "channel_id",
+          "sortable": true,
+          "sortField": "sort",
+          "sortChangeAction": {
+            "type": "save",
+            "path": "source/channel/update",
+            "params": {
+              "_partial": true,
+              "id": "$row.id",
+              "sort": "$value"
+            }
+          },
+          "createButton": {
+            "name": "新增频道",
+            "icon": "plus",
+            "variant": "outline",
+            "size": "sm",
+            "action": {
+              "click": {
+                "type": "modal",
+                "key": "dialog.createChannel",
+                "value": true
+              }
+            }
+          },
+          "statusField": "status",
+          "statusDisplay": "select",
+          "statusChangeAction": {
+            "type": "save",
+            "path": "source/channel/update",
+            "params": {
+              "_partial": true,
+              "id": "$row.id",
+              "status": "$value"
+            }
+          },
+          "statusCases": [
+            {
+              "value": 1,
+              "text": "启用",
+              "tone": "success"
+            },
+            {
+              "value": 2,
+              "text": "停用",
+              "tone": "muted"
+            }
+          ],
+          "buttons": [
+            {
+              "icon": "square-pen",
+              "variant": "ghost",
+              "size": "sm",
+              "description": "编辑频道",
+              "action": {
+                "click": [
+                  {
+                    "type": "data",
+                    "key": "actionTarget.editChannelId",
+                    "value": "$row.id"
+                  },
+                  {
+                    "type": "modal",
+                    "key": "dialog.editChannel",
+                    "value": true
+                  }
+                ]
+              }
+            },
+            {
+              "icon": "trash-2",
+              "variant": "ghost",
+              "size": "sm",
+              "description": "删除频道",
+              "action": {
+                "click": [
+                  {
+                    "type": "data",
+                    "key": "actionTarget.deleteChannel",
+                    "value": "$row"
+                  },
+                  {
+                    "type": "modal",
+                    "key": "confirm.deleteChannel",
+                    "value": true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "cate-toolbar": [
+      {
+        "type": "form-input",
+        "placeholder": "筛选分类名称...",
+        "value": "search.keyword",
+        "mode": "search"
+      },
+      {
+        "type": "show-button",
+        "name": "搜索",
+        "meta": {
+          "variant": "outline",
+          "size": "sm",
+          "searchSubmit": true
+        }
+      },
+      {
+        "type": "show-button",
+        "name": "新增分类",
+        "className": "ms-auto shrink-0",
+        "meta": {
+          "variant": "default",
+          "size": "sm",
+          "icon": "plus"
+        },
+        "action": {
+          "click": {
+            "type": "modal",
+            "key": "dialog.createCate",
+            "value": true
+          }
+        }
+      }
+    ],
+    "cate-title": [
+      {
+        "type": "show-title",
+        "value": "page.cateTitle",
+        "meta": {
+          "variant": "section"
+        }
+      }
+    ],
+    "cate-table": [
+      {
+        "type": "show-table",
+        "value": "table.list",
+        "meta": {
+          "remote": true,
+          "savePath": "source/cate/update",
+          "rowKey": "id",
+          "columns": [
+            {
+              "value": "name",
+              "name": "分类名称",
+              "type": "show-base",
+              "meta": {
+                "align": "center"
+              }
+            },
+            {
+              "value": "status",
+              "name": "状态",
+              "type": "form-switch",
+              "meta": {
+                "trueValue": 1,
+                "falseValue": 2
+              }
+            },
+            {
+              "value": "sort",
+              "name": "排序",
+              "type": "show-base",
+              "editor": "form-number",
+              "trigger": "doubleClick",
+              "tip": "正序排序，数值越小越靠前。"
+            },
+            {
+              "value": "created_at",
+              "name": "创建时间",
+              "type": "show-date"
+            },
+            {
+              "name": "操作",
+              "type": "show-button",
+              "className": "w-[1%] whitespace-nowrap px-3 text-center",
+              "meta": {
+                "buttons": [
+                  {
+                    "icon": "square-pen",
+                    "variant": "outline",
+                    "size": "sm",
+                    "description": "编辑分类",
+                    "action": {
+                      "click": [
+                        {
+                          "type": "data",
+                          "key": "actionTarget.editCateId",
+                          "value": "$row.id"
+                        },
+                        {
+                          "type": "modal",
+                          "key": "dialog.editCate",
+                          "value": true
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "icon": "trash-2",
+                    "variant": "outline",
+                    "size": "sm",
+                    "description": "删除分类",
+                    "className": "text-destructive hover:text-destructive",
+                    "action": {
+                      "click": [
+                        {
+                          "type": "data",
+                          "key": "actionTarget.deleteCate",
+                          "value": "$row"
+                        },
+                        {
+                          "type": "modal",
+                          "key": "confirm.deleteCate",
+                          "value": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "feedback-shell": [
+      {
+        "type": "feedback-modal",
+        "meta": {
+          "stateKey": "dialog.createChannel",
+          "pageRoute": "/source/channel/update",
+          "title": "新增频道",
+          "description": "频道用于组织资源分类和资源展示入口。",
+          "footer": {
+            "confirm": true,
+            "confirmText": "保存"
+          },
+          "size": "sm",
+          "bodyClassName": "py-2"
+        }
+      },
+      {
+        "type": "feedback-modal",
+        "meta": {
+          "stateKey": "dialog.editChannel",
+          "pageRoute": "/source/channel/update",
+          "title": "编辑频道",
+          "description": "调整频道名称。",
+          "footer": {
+            "confirm": true,
+            "confirmText": "保存"
+          },
+          "pageRouteQuery": {
+            "id": "data.actionTarget.editChannelId"
+          },
+          "size": "sm",
+          "bodyClassName": "py-2"
+        }
+      },
+      {
+        "type": "feedback-modal",
+        "meta": {
+          "stateKey": "dialog.createCate",
+          "pageRoute": "/source/cate/update",
+          "title": "新增分类",
+          "description": "分类会挂到当前频道下。",
+          "footer": {
+            "confirm": true,
+            "confirmText": "保存"
+          },
+          "pageDataPatches": {
+            "form.channel_id": "data.search.channel_id"
+          },
+          "size": "md",
+          "bodyClassName": "py-2"
+        }
+      },
+      {
+        "type": "feedback-modal",
+        "meta": {
+          "stateKey": "dialog.editCate",
+          "pageRoute": "/source/cate/update",
+          "title": "编辑分类",
+          "description": "调整分类名称和所属频道。",
+          "footer": {
+            "confirm": true,
+            "confirmText": "保存"
+          },
+          "pageRouteQuery": {
+            "id": "data.actionTarget.editCateId"
+          },
+          "size": "md",
+          "bodyClassName": "py-2"
+        }
+      },
+      {
+        "type": "feedback-confirm",
+        "name": "删除频道",
+        "info": "确认删除当前频道吗？频道下仍有分类或资源时会阻止删除。",
+        "meta": {
+          "stateKey": "confirm.deleteChannel"
+        },
+        "action": {
+          "confirm": {
+            "type": "delete",
+            "path": "source/channel/update",
+            "params": "actionTarget.deleteChannel",
+            "before": {
+              "type": "service",
+              "use": "source.SourceHook.BeforeDeleteChannel"
+            }
+          }
+        }
+      },
+      {
+        "type": "feedback-confirm",
+        "name": "删除分类",
+        "info": "确认删除当前分类吗？分类下仍有关联资源时会阻止删除。",
+        "meta": {
+          "stateKey": "confirm.deleteCate"
+        },
+        "action": {
+          "confirm": {
+            "type": "delete",
+            "path": "source/cate/update",
+            "params": "actionTarget.deleteCate",
+            "before": {
+              "type": "service",
+              "use": "source.SourceHook.BeforeDeleteCate"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "data": {
+    "page": {
+      "title": "频道管理",
+      "description": "左侧维护频道，右侧维护当前频道下的分类。",
+      "cateTitle": {
+        "title": "分类列表",
+        "description": "维护当前频道下的分类，排序和状态可直接在列表中调整。"
+      }
+    },
+    "search": {
+      "channel_id": 1,
+      "keyword": ""
+    },
+    "table": {
+      "list": "<<source.NewCateModel>>",
+      "page": 1,
+      "pageSize": 200,
+      "total": 0,
+      "searchFields": [
+        "name"
+      ],
+      "filterFields": [
+        "channel_id"
+      ],
+      "order": "sort asc,id asc"
+    },
+    "actionTarget": {
+      "editChannelId": "",
+      "deleteChannel": {},
+      "editCateId": "",
+      "deleteCate": {}
+    }
+  },
+  "state": {
+    "dialog": {
+      "createChannel": false,
+      "editChannel": false,
+      "createCate": false,
+      "editCate": false
+    },
+    "confirm": {
+      "deleteChannel": false,
+      "deleteCate": false
+    }
+  },
+  "action": {}
+}

@@ -1,0 +1,192 @@
+{
+  "page": {
+    "name": "资源编辑",
+    "parent": "source/source/list",
+    "type": 2,
+    "auth": [
+      {
+        "key": "source/source/create",
+        "name": "资源新增",
+        "query": {
+          "id": "empty"
+        }
+      },
+      {
+        "key": "source/source/update",
+        "name": "资源编辑",
+        "query": {
+          "id": "required"
+        }
+      }
+    ]
+  },
+  "layout": {
+    "type": "container",
+    "children": {
+      "page-main": {
+        "type": "main",
+        "className": "p-0",
+        "children": {
+          "dialog-shell": {
+            "type": "container",
+            "className": "w-full"
+          }
+        }
+      }
+    }
+  },
+  "nodes": {
+    "dialog-shell": [
+      {
+        "id": "source-title",
+        "type": "form-input",
+        "name": "标题",
+        "placeholder": "请输入标题",
+        "value": "form.title",
+        "mode": "form",
+        "validate": [
+          {
+            "type": "required",
+            "message": "标题不能为空。"
+          }
+        ],
+        "meta": {
+          "formLayout": "horizontal"
+        }
+      },
+      {
+        "id": "source-cate",
+        "type": "form-cascader",
+        "name": "分类",
+        "placeholder": "请选择分类",
+        "value": "form.cate_id",
+        "mode": "form",
+        "validate": [
+          {
+            "type": "required",
+            "message": "分类不能为空。"
+          }
+        ],
+        "meta": {
+          "api": "/front/route/option",
+          "type": "service",
+          "use": "source.SourceOptionService.LoadChannels",
+          "childUse": "source.SourceOptionService.LoadCates",
+          "childParentField": "channel_id",
+          "valueMode": "leaf",
+          "placeholder": [
+            "选择频道",
+            "选择分类"
+          ],
+          "childExtraFields": "channel_id,status",
+          "order": "sort asc,id asc",
+          "formLayout": "horizontal"
+        }
+      },
+      {
+        "id": "source-origin",
+        "type": "form-select",
+        "name": "来源",
+        "placeholder": "请选择来源",
+        "value": "form.origin_id",
+        "mode": "form",
+        "option": "/front/route/option?type=model&use=source.NewOriginModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "validate": [
+          {
+            "type": "required",
+            "message": "来源不能为空。"
+          }
+        ],
+        "meta": {
+          "formLayout": "horizontal"
+        }
+      },
+      {
+        "id": "source-status",
+        "type": "form-select",
+        "name": "资源状态",
+        "placeholder": "请选择资源状态",
+        "value": "form.status_id",
+        "mode": "form",
+        "option": "/front/route/option?type=model&use=source.NewStatusModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "meta": {
+          "formLayout": "horizontal"
+        }
+      },
+      {
+        "id": "source-images",
+        "type": "form-upload",
+        "name": "图片列表",
+        "placeholder": "请上传资源图片",
+        "value": "form.images",
+        "mode": "form",
+        "info": "可上传多张图片，支持从资源库选择。",
+        "meta": {
+          "formLayout": "horizontal",
+          "uploadType": "pic",
+          "kind": "image",
+          "saveMode": "url",
+          "ruleId": 1,
+          "bizKey": "source.images",
+          "bizName": "资源图片",
+          "maxCount": 10
+        }
+      },
+      {
+        "id": "source-content",
+        "type": "form-editor",
+        "name": "内容",
+        "placeholder": "请输入资源正文内容。",
+        "value": "form.content",
+        "mode": "form",
+        "meta": {
+          "assistant": true,
+          "minHeight": 320,
+          "maxHeight": 640,
+          "uploadRules": [
+            {
+              "ruleId": 1,
+              "kind": "image",
+              "bizKey": "source.content",
+              "bizName": "资源正文"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "data": {
+    "form": {
+      "id": "",
+      "title": "",
+      "content": "",
+      "images": "",
+      "channel_id": "",
+      "cate_id": "",
+      "origin_id": 1,
+      "status_id": 1,
+      "status": 1,
+      "sort": 100
+    }
+  },
+  "state": {},
+  "action": {
+    "submit": {
+      "type": "save",
+      "params": "form",
+      "data": {
+        "id": "$form.id",
+        "title": "$form.title",
+        "content": "$form.content",
+        "images": "$form.images",
+        "origin_id": "$form.origin_id",
+        "status_id": "$form.status_id",
+        "cate_id": "$form.cate_id"
+      },
+      "before": {
+        "type": "service",
+        "use": "source.SourceHook.BeforeSaveSource"
+      }
+    }
+  }
+}
