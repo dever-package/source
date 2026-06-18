@@ -8,33 +8,35 @@
   "skills": [
     "skills/source/SKILL.md"
   ],
-  "sites": {
-    "admin": {
-      "auth": [
-        {
-          "key": "source-center",
-          "name": "资源中心",
-          "icon": "folder-open",
-          "type": 1,
-          "sort": 1,
-          "children": [
-            {
-              "key": "source-resource",
-              "name": "资源",
-              "icon": "files",
-              "type": 1,
-              "sort": 1
-            },
-            {
-              "key": "source-config",
-              "name": "配置",
-              "icon": "settings",
-              "type": 1,
-              "sort": 2
-            }
-          ]
-        }
-      ]
+  "front": {
+    "sites": {
+      "admin": {
+        "auth": [
+          {
+            "key": "source-center",
+            "name": "资源中心",
+            "icon": "folder-open",
+            "type": 1,
+            "sort": 1,
+            "children": [
+              {
+                "key": "source-resource",
+                "name": "资源",
+                "icon": "files",
+                "type": 1,
+                "sort": 1
+              },
+              {
+                "key": "source-config",
+                "name": "配置",
+                "icon": "settings",
+                "type": 1,
+                "sort": 2
+              }
+            ]
+          }
+        ]
+      }
     }
   }
 }

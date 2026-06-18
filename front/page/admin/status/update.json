@@ -46,11 +46,6 @@
           {
             "type": "required",
             "message": "状态名称不能为空。"
-          },
-          {
-            "type": "model",
-            "except": "$form.id",
-            "message": "该状态名称已存在，请更换。"
           }
         ],
         "meta": {

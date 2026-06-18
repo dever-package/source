@@ -18,7 +18,6 @@ type Cate struct {
 type CateIndex struct {
 	ChannelSort       struct{} `index:"channel_id,sort,id"`
 	ChannelStatusSort struct{} `index:"channel_id,status,sort,id"`
-	ChannelName       struct{} `unique:"channel_id,name"`
 }
 
 var cateSeed = []map[string]any{

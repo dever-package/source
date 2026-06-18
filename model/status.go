@@ -17,7 +17,6 @@ type Status struct {
 }
 
 type StatusIndex struct {
-	Name       struct{} `unique:"name"`
 	StatusSort struct{} `index:"status,sort,id"`
 	Online     struct{} `index:"online,status,sort,id"`
 }
