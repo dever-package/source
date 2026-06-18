@@ -1,6 +1,6 @@
 ---
 name: dever-source
-description: Use when 修改 Dever source 组件，包括资源中心、资源、频道、分类、来源、资源状态、source page JSON、Provider hook、选项加载、权限和迁移行为。
+description: Use when 修改 Dever source 组件，包括资源中心、资源、频道、分类、来源、资源状态、source page JSON、Provider hook、选项加载、权限和升级影响。
 version: 0.1.0
 ---
 

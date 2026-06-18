@@ -72,8 +72,7 @@
         "name": "$form.name"
       },
       "before": {
-        "type": "service",
-        "use": "source.SourceHook.BeforeSaveChannel"
+        "service": "source.SourceHook.BeforeSaveChannel"
       }
     }
   }

@@ -72,7 +72,9 @@
         "type": "show-category-list",
         "id": "source-channel-list",
         "value": "search.channel_id",
-        "option": "/front/route/option?type=service&use=source.SourceOptionService.LoadChannels",
+        "option": {
+          "service": "source.SourceOptionService.LoadChannels"
+        },
         "meta": {
           "title": "频道",
           "description": "左侧维护频道，右侧维护当前频道下的分类。",
@@ -390,8 +392,7 @@
             "path": "source/channel/update",
             "params": "actionTarget.deleteChannel",
             "before": {
-              "type": "service",
-              "use": "source.SourceHook.BeforeDeleteChannel"
+              "service": "source.SourceHook.BeforeDeleteChannel"
             }
           }
         }
@@ -409,8 +410,7 @@
             "path": "source/cate/update",
             "params": "actionTarget.deleteCate",
             "before": {
-              "type": "service",
-              "use": "source.SourceHook.BeforeDeleteCate"
+              "service": "source.SourceHook.BeforeDeleteCate"
             }
           }
         }
@@ -431,17 +431,15 @@
       "keyword": ""
     },
     "table": {
-      "list": "<<source.NewCateModel>>",
-      "page": 1,
       "pageSize": 200,
-      "total": 0,
       "searchFields": [
         "name"
       ],
       "filterFields": [
         "channel_id"
       ],
-      "order": "sort asc,id asc"
+      "order": "sort asc,id asc",
+      "model": "source.NewCateModel"
     },
     "actionTarget": {
       "editChannelId": "",

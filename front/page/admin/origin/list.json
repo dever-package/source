@@ -141,8 +141,7 @@
                     "status": "$value"
                   },
                   "before": {
-                    "type": "service",
-                    "use": "source.SourceHook.BeforeSaveOrigin"
+                    "service": "source.SourceHook.BeforeSaveOrigin"
                   }
                 }
               },
@@ -268,8 +267,7 @@
             "path": "source/origin/update",
             "params": "actionTarget.deleteOrigin",
             "before": {
-              "type": "service",
-              "use": "source.SourceHook.BeforeDeleteOrigin"
+              "service": "source.SourceHook.BeforeDeleteOrigin"
             }
           }
         }
@@ -286,9 +284,6 @@
       "status": ""
     },
     "table": {
-      "page": 1,
-      "pageSize": 10,
-      "total": 0,
       "searchFields": [
         "name"
       ],

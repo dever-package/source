@@ -275,8 +275,7 @@
             "path": "source/status/update",
             "params": "actionTarget.deleteStatus",
             "before": {
-              "type": "service",
-              "use": "source.SourceHook.BeforeDeleteStatus"
+              "service": "source.SourceHook.BeforeDeleteStatus"
             }
           }
         }
@@ -293,9 +292,6 @@
       "status": ""
     },
     "table": {
-      "page": 1,
-      "pageSize": 10,
-      "total": 0,
       "searchFields": [
         "name"
       ],

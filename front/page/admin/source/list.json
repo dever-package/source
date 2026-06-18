@@ -75,7 +75,13 @@
         "placeholder": "频道",
         "value": "search.channel_id",
         "mode": "search",
-        "option": "/front/route/option?type=model&use=source.NewChannelModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "option": {
+          "model": "source.NewChannelModel",
+          "order": "sort asc,id asc",
+          "filters": {
+            "status": "1"
+          }
+        },
         "meta": {
           "controlClassName": "w-[180px]",
           "clearOnChange": [
@@ -88,11 +94,13 @@
         "placeholder": "分类",
         "value": "search.cate_id",
         "mode": "search",
-        "option": "/front/route/option?type=service&use=source.SourceOptionService.LoadCates",
+        "option": {
+          "service": "source.SourceOptionService.LoadCates",
+          "parentField": "channel_id"
+        },
         "meta": {
           "controlClassName": "w-[180px]",
           "optionParams": {
-            "parentField": "channel_id",
             "parentId": "data.search.channel_id"
           }
         }
@@ -102,7 +110,13 @@
         "placeholder": "来源",
         "value": "search.origin_id",
         "mode": "search",
-        "option": "/front/route/option?type=model&use=source.NewOriginModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "option": {
+          "model": "source.NewOriginModel",
+          "order": "sort asc,id asc",
+          "filters": {
+            "status": "1"
+          }
+        },
         "meta": {
           "controlClassName": "w-[180px]"
         }
@@ -112,7 +126,13 @@
         "placeholder": "资源状态",
         "value": "search.status_id",
         "mode": "search",
-        "option": "/front/route/option?type=model&use=source.NewStatusModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "option": {
+          "model": "source.NewStatusModel",
+          "order": "sort asc,id asc",
+          "filters": {
+            "status": "1"
+          }
+        },
         "meta": {
           "controlClassName": "w-[180px]"
         }
@@ -206,8 +226,7 @@
                     "status": "$value"
                   },
                   "before": {
-                    "type": "service",
-                    "use": "source.SourceHook.BeforeSaveSource"
+                    "service": "source.SourceHook.BeforeSaveSource"
                   }
                 }
               },
@@ -395,9 +414,6 @@
       "status": ""
     },
     "table": {
-      "page": 1,
-      "pageSize": 10,
-      "total": 0,
       "searchFields": [
         "title"
       ],

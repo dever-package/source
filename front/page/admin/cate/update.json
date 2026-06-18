@@ -41,7 +41,13 @@
         "type": "form-select",
         "value": "form.channel_id",
         "mode": "form",
-        "option": "/front/route/option?type=model&use=source.NewChannelModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "option": {
+          "model": "source.NewChannelModel",
+          "order": "sort asc,id asc",
+          "filters": {
+            "status": "1"
+          }
+        },
         "validate": [
           {
             "type": "required",
@@ -90,8 +96,7 @@
         "name": "$form.name"
       },
       "before": {
-        "type": "service",
-        "use": "source.SourceHook.BeforeSaveCate"
+        "service": "source.SourceHook.BeforeSaveCate"
       }
     }
   }

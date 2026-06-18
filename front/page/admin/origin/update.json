@@ -78,8 +78,7 @@
       "type": "save",
       "params": "form",
       "before": {
-        "type": "service",
-        "use": "source.SourceHook.BeforeSaveOrigin"
+        "service": "source.SourceHook.BeforeSaveOrigin"
       }
     }
   }

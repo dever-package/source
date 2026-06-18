@@ -68,10 +68,6 @@
           }
         ],
         "meta": {
-          "api": "/front/route/option",
-          "type": "service",
-          "use": "source.SourceOptionService.LoadChannels",
-          "childUse": "source.SourceOptionService.LoadCates",
           "childParentField": "channel_id",
           "valueMode": "leaf",
           "placeholder": [
@@ -80,7 +76,9 @@
           ],
           "childExtraFields": "channel_id,status",
           "order": "sort asc,id asc",
-          "formLayout": "horizontal"
+          "formLayout": "horizontal",
+          "service": "source.SourceOptionService.LoadChannels",
+          "childService": "source.SourceOptionService.LoadCates"
         }
       },
       {
@@ -90,7 +88,13 @@
         "placeholder": "请选择来源",
         "value": "form.origin_id",
         "mode": "form",
-        "option": "/front/route/option?type=model&use=source.NewOriginModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "option": {
+          "model": "source.NewOriginModel",
+          "order": "sort asc,id asc",
+          "filters": {
+            "status": "1"
+          }
+        },
         "validate": [
           {
             "type": "required",
@@ -108,7 +112,13 @@
         "placeholder": "请选择资源状态",
         "value": "form.status_id",
         "mode": "form",
-        "option": "/front/route/option?type=model&use=source.NewStatusModel&filterField=status&filterValue=1&order=sort asc,id asc",
+        "option": {
+          "model": "source.NewStatusModel",
+          "order": "sort asc,id asc",
+          "filters": {
+            "status": "1"
+          }
+        },
         "meta": {
           "formLayout": "horizontal"
         }
@@ -184,8 +194,7 @@
         "cate_id": "$form.cate_id"
       },
       "before": {
-        "type": "service",
-        "use": "source.SourceHook.BeforeSaveSource"
+        "service": "source.SourceHook.BeforeSaveSource"
       }
     }
   }
