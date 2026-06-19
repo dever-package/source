@@ -9,9 +9,9 @@ import (
 	"github.com/shemic/dever/server"
 	"github.com/shemic/dever/util"
 
-	frontaction "my/package/front/service/action"
-	frontrecord "my/package/front/service/record"
-	sourcemodel "my/package/source/model"
+	frontaction "github.com/dever-package/front/service/action"
+	frontrecord "github.com/dever-package/front/service/record"
+	sourcemodel "github.com/dever-package/source/model"
 )
 
 type SourceHook struct{}
