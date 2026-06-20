@@ -31,7 +31,7 @@ var cateChannelRelation = orm.Relation{
 }
 
 func NewCateModel() *orm.Model[Cate] {
-	return orm.LoadModel[Cate]("分类", "cate", orm.ModelConfig{
+	return orm.LoadModel[Cate]("分类", "source_cate", orm.ModelConfig{
 		Index:    CateIndex{},
 		Seeds:    cateSeed,
 		Order:    "sort asc,id asc",

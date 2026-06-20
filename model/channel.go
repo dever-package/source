@@ -23,7 +23,7 @@ var channelSeed = []map[string]any{
 }
 
 func NewChannelModel() *orm.Model[Channel] {
-	return orm.LoadModel[Channel]("频道", "channel", orm.ModelConfig{
+	return orm.LoadModel[Channel]("频道", "source_channel", orm.ModelConfig{
 		Index:    ChannelIndex{},
 		Seeds:    channelSeed,
 		Order:    "sort asc,id asc",
