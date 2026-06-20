@@ -22,7 +22,6 @@ version: 0.1.0
 - 不为普通 CRUD 新增 API 或 Service。
 - 校验、归一化、保存前后生命周期统一放在 `service.SourceHook`，不要散落到页面 action。
 - 不手改生成文件、编译产物或项目级菜单来补 source 菜单。
-- 不在 `dever.json` 写 `apiRoots`；API 扫描由 Dever 按组件自动处理。
 - 菜单分组归属在 `dever.json`：`source-center`、`source-resource`、`source-config`。
 
 ## Page 规则
